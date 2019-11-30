@@ -1,0 +1,7 @@
+{
+	"server" : {
+		"port" : 53,
+		"dnsPath" : "127.0.0.1",
+		"dnsPort" : 54
+	}
+}
