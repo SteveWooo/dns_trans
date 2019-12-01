@@ -24,7 +24,7 @@ ns.cn. 172800 IN A 1.1.0.22
 `;
     var subDomain = [];
     for (var i = 0; i < options.domainList.localroot.length; i++) {
-        subDomain.push(`${options.domainList.localroot[i]}  300 IN  A   1.1.0.100`);
+        subDomain.push(`${options.domainList.localroot[i]}.  300 IN  A   1.1.0.100`);
     }
     file += subDomain.join('\n');
     file += '\n';
@@ -39,7 +39,7 @@ ns.a.cn. 172800 IN A 1.1.0.12
 `;
     var subDomain = [];
     for(var i=0;i<options.domainList.recursive.length;i++) {
-        subDomain.push(`${options.domainList.recursive[i]}  300 IN  A   1.1.0.100`);
+        subDomain.push(`${options.domainList.recursive[i]}.  300 IN  A   1.1.0.100`);
     }
     file += subDomain.join('\n')
     file += '\n';
