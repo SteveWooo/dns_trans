@@ -29,6 +29,10 @@ async function startJob(swc, options) {
         fs.writeFileSync(`${__dirname}/../../logs/${logFileName}`, logs.join('\n'));
         return ;
     }
+
+    if(swc.argv['debug'] == 1) {
+        console.log(logs.join('\n'));
+    }
 }
 
 module.exports = async function(swc, options) {
