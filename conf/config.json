@@ -1,7 +1,10 @@
 {
 	"server" : {
 		"port" : 53,
-		"dnsPath" : "127.0.0.1",
-		"dnsPort" : 54
+		"localRootEntryPoint" : "1.1.1.3",
+		"localRootRecursiveServer" : "1.1.1.2",
+		"localRootRecursiveServerPort" : 53,
+		"recursiveServer" : "1.1.1.1",
+		"recursiveServerPort" : 53
 	}
 }
