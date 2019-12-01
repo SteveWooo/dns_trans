@@ -15,7 +15,9 @@ async function startJob(swc, options) {
     var logFileName = `${swc.argv.s}-${+new Date()}.log`;
 
     if(swc.argv['logdir'] != undefined) {
-        fs.mkdirSync(`${__dirname}/../../logs/${swc.argv['logdir']}`);
+        if (!fs.existsSync(`${__dirname}/../../logs/${swc.argv['logdir']}`)) {
+            fs.mkdirSync(`${__dirname}/../../logs/${swc.argv['logdir']}`);
+        }
         logFileName = swc.argv['logdir'] + '/' + logFileName;
     }
 
