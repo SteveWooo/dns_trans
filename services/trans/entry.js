@@ -29,6 +29,7 @@ module.exports = async function(swc, options) {
     if (!(req.header.id in global.swc.trans.requestCache)) {
         global.swc.trans.requestCache[req.header.id] = {
             info : options.info,
+            originMsg : options.msg,
             status : 0
         }
         console.log(`to localroot : ${req.question.domain}`);
@@ -53,7 +54,7 @@ module.exports = async function(swc, options) {
         global.swc.trans.requestCache[req.header.id].status = 1;
         console.log(`to recursive : ${req.question.domain}`);
         var result = await resolveRecursive(swc, {
-            msg: options.msg
+            msg: global.swc.trans.requestCache[req.header.id].originMsg
         })
         return ;
     }
