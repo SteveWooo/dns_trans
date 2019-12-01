@@ -1,4 +1,5 @@
 const dns = require('dns');
+const fs = require('fs');
 
 function dnsReq(swc, options) {
     return new Promise(resolve=>{
@@ -10,6 +11,8 @@ function dnsReq(swc, options) {
 
 async function startJob(swc, options) {
     var domainList = swc.config.client.domainList;
+    var logFileName = `${swc.argv.s}-${+new Date()}.log`;
+    var logs = [];
     for(var domain in domainList) {
         var begin = +new Date();
         var result = await dnsReq(swc, {
@@ -17,7 +20,14 @@ async function startJob(swc, options) {
             config : domainList[domain]
         })
         var end = +new Date();
-        console.log(`${swc.argv.s} done : ${domain} by : ${end - begin}ms`);
+        // console.log(`${swc.argv.s} done : ${domain} by : ${end - begin}ms`);
+        var log = `delay=${end - begin}\`domain=${domain}\``;
+        logs.push(log);
+    }
+
+    if(swc.argv['log'] == 1) {
+        fs.writeFileSync(`${__dirname}/../../logs/${logFileName}`, logs.join('\n'));
+        return ;
     }
 }
 
