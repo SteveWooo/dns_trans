@@ -26,6 +26,7 @@ module.exports = async function(swc, options) {
      * 如果缓存中没有这个ID，说明需要发动第一次解析
      * info: {address, port}
      */
+    console.log(`receive req : ${req.question.domain}`);
     if (!(req.header.id in global.swc.trans.requestCache)) {
         global.swc.trans.requestCache[req.header.id] = {
             info : options.info,
