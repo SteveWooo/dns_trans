@@ -8,6 +8,6 @@
         "recursiveServerPort": 53
     },
     "client": {
-        "domainCount" : 100
+        "domainCount" : 5000
     }
 }
