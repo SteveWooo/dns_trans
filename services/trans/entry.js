@@ -26,13 +26,12 @@ module.exports = async function(swc, options) {
      * 如果缓存中没有这个ID，说明需要发动第一次解析
      * info: {address, port}
      */
-    console.log(`receive req : ${req.question.domain}`);
     if (!(req.header.id in global.swc.trans.requestCache)) {
         global.swc.trans.requestCache[req.header.id] = {
             info : options.info,
             status : 0
         }
-
+        console.log(`to localroot : ${req.question.domain}`);
         var result = await resolveLocalRoot(swc, {
             msg: options.msg
         })
@@ -52,6 +51,7 @@ module.exports = async function(swc, options) {
     }
     if (req.header.rcode == '0011' && global.swc.trans.requestCache[req.header.id].status == 0) { // 代表NXDOMAIN
         global.swc.trans.requestCache[req.header.id].status = 1;
+        console.log(`to recursive : ${req.question.domain}`);
         var result = await resolveRecursive(swc, {
             msg: options.msg
         })
