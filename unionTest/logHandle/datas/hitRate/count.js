@@ -27,6 +27,9 @@ async function getOriginData(options) {
         var file = fs.readFileSync(`${options.dirname}/${dirs[i]}`).toString().split('\n');
         for (var k = 0; k < file.length; k++) {
             file[k] = file[k].split('`');
+            if(file[k].length == 1 ) {
+                continue ;
+            }
             var domain = file[k][1].split('=')[1];
             var delay = file[k][0].split('=')[1];
 
