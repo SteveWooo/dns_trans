@@ -1,0 +1,10 @@
+node create.js 10000
+node create.js 20000
+node create.js 30000
+node create.js 40000
+node create.js 50000
+node create.js 60000
+node create.js 70000
+node create.js 80000
+node create.js 90000
+node create.js 100000

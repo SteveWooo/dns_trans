@@ -8,7 +8,7 @@ async function countAvg(options) {
             for (var i = 0; i < originLogs[type][domain].delays.length; i++) {
                 allDelay += parseInt(originLogs[type][domain].delays[i]);
             }
-            originLogs[type][domain].avgDelay = allDelay / originLogs[type][domain].delays.length;
+            originLogs[type][domain].avgDelay = parseFloat(allDelay / originLogs[type][domain].delays.length);
         }
     }
 
@@ -40,7 +40,7 @@ async function getOriginData(options) {
             }
 
             // 太大的排除
-            // if (delay > 20) {
+            // if (delay > 30) {
             //     continue;
             // }
 
@@ -64,9 +64,9 @@ async function countResultAvg(options) {
     return options.originLogs;
 }
 
-async function main() {
+async function entry(options) {
     var originLogs = await getOriginData({
-        dirname : `${__dirname}/sourceLogs/0`
+        dirname : `${__dirname}/sourceLogs/${options.dirname}`
     });
     originLogs = await countAvg({
         originLogs: originLogs
@@ -75,6 +75,25 @@ async function main() {
     originLogs = await countResultAvg({
         originLogs: originLogs
     })
-    console.log(originLogs);
+    console.log(`${options.dirname}% : localrootAvg=${originLogs.localroot.avgDelay}, recursiveAvg=${originLogs.recursive.avgDelay}`);
+    return originLogs;
+}
+
+async function main(){
+    var result = {
+        localroot: [],
+        recursive: []
+    }
+    for(var i=0;i<=100;i+=10) {
+        var originLogs = await entry({
+            dirname : i
+        })
+        result.localroot.push(`${i} ${originLogs.localroot.avgDelay}`);
+        result.recursive.push(`${i} ${originLogs.recursive.avgDelay}`);
+    }
+
+    fs.writeFileSync(`${__dirname}/resultForGlunt/localroot`, result.localroot.join('\n'));
+    fs.writeFileSync(`${__dirname}/resultForGlunt/recursive`, result.recursive.join('\n'));
+
 }
 main();
