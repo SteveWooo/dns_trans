@@ -13,7 +13,11 @@ async function startJob(swc, options) {
     var domainList = swc.config.client.domainList;
     var domainCount = swc.config.client.domainCount;
     var logFileName = `${swc.argv.s}-${+new Date()}.log`;
-    // var logs = [];
+
+    if(swc.argv['logdir'] != undefined) {
+        fs.mkdirSync(`${__dirname}/../../logs/${swc.argv['logdir']}`);
+        logFileName = swc.argv['logdir'] + '/' + logFileName;
+    }
 
     if (swc.argv['log'] == 1) {
         fs.writeFileSync(`${__dirname}/../../logs/${logFileName}`, '');
