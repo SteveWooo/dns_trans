@@ -24,12 +24,11 @@ async function startJob(swc, options) {
         var domain = `${i}.a.cn`;
         var begin = +new Date();
         var result = await dnsReq(swc, {
-            domain: domain,
-            config: domainList[domain]
+            domain: domain
         })
         var end = +new Date();
         var log = `delay=${end - begin}\`domain=${domain}\``;
-        
+
         if (swc.argv['debug'] == 1) {
             console.log(log);
         }
