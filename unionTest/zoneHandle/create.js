@@ -127,10 +127,33 @@ async function buildRRSCountFile(options){
     }
 }
 
-buildRRSCountFile({
-    count : 100000,
+async function buildBigRRSCountFile(options) {
+    var file = await createNormalZone({
+        domainList : {
+            recursive : [],
+            localroot : []
+        }
+    })
+    if(options.type == 'recursive') {
+        fs.writeFileSync(`${__dirname}/rrsCount/recursive/a.cn.${options.count}.zone`, file);
+        for(var i=0;i<options.count;i++) {
+            fs.appendFileSync(`${__dirname}/rrsCount/recursive/a.cn.${options.count}.zone`, 
+                `${i}.a.cn.  300 IN  A   1.1.0.100\n`);
+        }
+    }
+}
+
+// buildRRSCountFile({
+//     count : 100000,
+//     type : 'recursive'
+// });
+
+buildBigRRSCountFile({
+    count : 1000,
     type : 'recursive'
-});
+})
+
+
 
 // async function main(){
 //     var domainList = await createDomain();
