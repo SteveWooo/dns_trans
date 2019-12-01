@@ -106,6 +106,11 @@ async function buildRRSCountFile(options){
         domainList[options.type].push(`${i}.a.cn`);
     }
 
+    var configFile = await createConfigDomain({
+        domainList: domainList
+    })
+    fs.writeFileSync(`${__dirname}/rrsCount/recursive/config.${options.count}.json`, JSON.stringify(configFile));
+
     var zoneFiles = {};
     if(options.type == 'recursive') {
         zoneFiles.recursive = await createNormalZone({
@@ -120,12 +125,10 @@ async function buildRRSCountFile(options){
         })
         fs.writeFileSync(`${__dirname}/rrsCount/localroot/cn.${options.count}.zone`, zoneFiles.localroot);
     }
-    
-
 }
 
 buildRRSCountFile({
-    count : 10000,
+    count : 100000,
     type : 'recursive'
 });
 
