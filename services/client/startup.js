@@ -17,7 +17,6 @@ async function startJob(swc, options) {
 
     if (swc.argv['log'] == 1) {
         fs.writeFileSync(`${__dirname}/../../logs/${logFileName}`, '');
-        return;
     }
 
     for(var i=0;i<domainCount;i++) {
