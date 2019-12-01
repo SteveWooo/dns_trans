@@ -136,9 +136,12 @@ async function buildBigRRSCountFile(options) {
     })
     if(options.type == 'recursive') {
         fs.writeFileSync(`${__dirname}/rrsCount/recursive/a.cn.${options.count}.zone`, file);
+        fs.writeFileSync(`${__dirname}/../../conf/domainList`, '');
         for(var i=0;i<options.count;i++) {
             fs.appendFileSync(`${__dirname}/rrsCount/recursive/a.cn.${options.count}.zone`, 
                 `${i}.a.cn.  300 IN  A   1.1.0.100\n`);
+            fs.appendFileSync(`${__dirname}/../../conf/domainList`, 
+                `${i}.a.cn.\n`);
         }
     }
 }
@@ -149,7 +152,7 @@ async function buildBigRRSCountFile(options) {
 // });
 
 buildBigRRSCountFile({
-    count : 1000,
+    count : process.argv[2],
     type : 'recursive'
 })
 

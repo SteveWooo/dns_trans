@@ -11,28 +11,33 @@ function dnsReq(swc, options) {
 
 async function startJob(swc, options) {
     var domainList = swc.config.client.domainList;
+    var domainCount = swc.config.client.domainCount;
     var logFileName = `${swc.argv.s}-${+new Date()}.log`;
-    var logs = [];
-    for(var domain in domainList) {
+    // var logs = [];
+
+    if (swc.argv['log'] == 1) {
+        fs.writeFileSync(`${__dirname}/../../logs/${logFileName}`, '');
+        return;
+    }
+
+    for(var i=0;i<domainCount;i++) {
+        var domain = `${i}.a.cn`;
         var begin = +new Date();
         var result = await dnsReq(swc, {
-            domain : domain,
-            config : domainList[domain]
+            domain: domain,
+            config: domainList[domain]
         })
         var end = +new Date();
-        // console.log(`${swc.argv.s} done : ${domain} by : ${end - begin}ms`);
         var log = `delay=${end - begin}\`domain=${domain}\``;
-        logs.push(log);
+        
+        if (swc.argv['debug'] == 1) {
+            console.log(log);
+        }
+        if (swc.argv['log'] == 1) {
+            fs.appendFileSync(`${__dirname}/../../logs/${logFileName}`, log + '\n');
+        }
     }
 
-    if(swc.argv['log'] == 1) {
-        fs.writeFileSync(`${__dirname}/../../logs/${logFileName}`, logs.join('\n'));
-        return ;
-    }
-
-    if(swc.argv['debug'] == 1) {
-        console.log(logs.join('\n'));
-    }
 }
 
 module.exports = async function(swc, options) {
