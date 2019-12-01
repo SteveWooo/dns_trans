@@ -1,8 +1,4 @@
 const dns = require('dns');
-const domainList = {
-    'www.a.cn' : {},
-    'blog.a.cn' : {}
-}
 
 function dnsReq(swc, options) {
     return new Promise(resolve=>{
@@ -10,10 +6,10 @@ function dnsReq(swc, options) {
             resolve(res);
         });
     })
-    
 }
 
 async function startJob(swc, options) {
+    var domainList = swc.config.client.domainList;
     for(var domain in domainList) {
         var begin = +new Date();
         var result = await dnsReq(swc, {
@@ -21,11 +17,20 @@ async function startJob(swc, options) {
             config : domainList[domain]
         })
         var end = +new Date();
-        console.log(`done : ${domain} by : ${end - begin}ms`);
+        console.log(`${swc.argv.s} done : ${domain} by : ${end - begin}ms`);
     }
 }
 
 module.exports = async function(swc, options) {
-    dns.setServers([swc.config.server.localRootEntryPoint]);
+    if(swc.argv.s == 'localroot') {
+        dns.setServers([swc.config.server.localRootEntryPoint]);
+    } 
+    else if (swc.argv.s == 'recursive') {
+        dns.setServers([swc.config.server.recursiveServer]);
+    } else {
+        console.log('错误：未指定dns服务器');
+        return ;
+    }
+    
     await startJob(swc, options);
 }

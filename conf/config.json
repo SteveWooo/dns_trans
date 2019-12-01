@@ -6,5 +6,11 @@
 		"localRootRecursiveServerPort" : 53,
 		"recursiveServer" : "1.1.1.1",
 		"recursiveServerPort" : 53
+	},
+	"client" : {
+		"domainList" : {
+			"www.a.cn" : {"inLocalRoot" : 1},
+			"blog.a.cn" : {"inLocalRoot": 1}
+		}
 	}
 }
